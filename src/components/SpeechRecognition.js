@@ -14,8 +14,6 @@ export default class SpeechHandler {
 			.then((e) => this.processSpeechNode(e))
 	}
 
-	
-
 	repeatLastSpeechNode() {
 		if (!this.history.length) {
 			console.log('no speech events to read')
@@ -23,6 +21,15 @@ export default class SpeechHandler {
 		const last = this.history.length - 1;
 		const toSay = new SpeechSynthesisUtterance(this.history[last].transcript);
 		speechSynthesis.speak(toSay);
+	}
+
+	repeatEntireHistory() {
+		const text = this.history
+			.map(speechEvent => speechEvent.transcript)
+			.join('. ');
+		
+		const toSay = new SpeechSynthesisUtterance(text);
+		speechSynthesis.speak(toSay);	
 	}
 
 	processSpeechNode(speechEvent) {
